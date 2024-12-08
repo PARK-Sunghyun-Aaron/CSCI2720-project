@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin</title>
+</head>
+<body>
+    <p>Click the create button to create a new user data</p>
+    <form id="createUserIdForm">
+        <label for="newUserId">New user ID:</label>
+        <input type="text" id="newUserId" name="newUserId">
+        <br>
+        <label for="newUserPassword">New user Password:</label>
+        <input type="text" id="newUserPassword" name="newUserPassword">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the read button to read user data</p>
+    <form id="readUserIdForm">
+        <label for="readUserId">Read user ID:</label>
+        <input type="submit" id="readUserId" name="readUserId" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the update button to update a user data</p>
+    <form id="updateUserIdForm">
+        <label for="userId_1">User ID:</label>
+        <input type="text" id="userId_1" name="userId_1">
+        <label for="userPassword_1">User Password:</label>
+        <input type="text" id="userPassword_1" name="userPassword_1">
+        <label for="updatedUserId">Updated User ID:</label>
+        <input type="text" id="updatedUserId" name="updatedUserId">
+        <br>
+        <input type="submit" value="Update">
+    </form>
+    <br>
+
+    <p>Click the update button to update a user data</p>
+    <form id="updatePasswordForm">
+        <label for="userId_2">User ID:</label>
+        <input type="text" id="userId_2" name="userId_2">
+        <label for="userPassword_2">User Password:</label>
+        <input type="text" id="userPassword_2" name="userPassword_2">
+        <label for="updatedPassword">Updated User Password:</label>
+        <input type="text" id="updatedPassword" name="updatedPassword">
+        <br>
+        <input type="submit" value="Update">
+    </form>
+    <br>
+
+    <p>Click the delete button to delete a user data</p>
+    <form id="deleteUserIdForm">
+        <label for="deleteUserId">Delete user ID:</label>
+        <input type="text" id="deleteUserId" name="deleteUserId">
+        <br>
+        <input type="submit" value="Delete">
+    </form>
+
+    <script>
+        document.getElementById('createUserIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userId = document.getElementById('newUserId').value;
+            const userPassword = document.getElementById('newUserPassword').value;
+            const data = {
+                userId: userId,
+                userPassword: userPassword,
+            };
+            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            /* commented to not show the result
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+            */
+        });
+
+        document.getElementById('readUserIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            console.log("11111");
+            const url = 'http://localhost:3000/readUserId';
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('updateUserIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userId = document.getElementById('userId_1').value;
+            const userPassword = document.getElementById('userPassword_1').value;
+            const updatedUserId = document.getElementById('updatedUserId').value;
+
+            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword+'/updatedUserId/'+updatedUserId;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('updatePasswordForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userId = document.getElementById('userId_2').value;
+            const userPassword = document.getElementById('userPassword_2').value;
+            const updatedPassword = document.getElementById('updatedPassword').value;
+
+            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword+'/updatedPassword/'+updatedPassword;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('deleteUserIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const deleteUserId = document.getElementById('deleteUserId').value;
+
+            const url = 'http://localhost:3000/deleteUserId/'+deleteUserId;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+    </script>
+
+</body>
+</html>
