@@ -1,44 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Cultural event</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="text/babel" src="src/index.js"></script>
-    <style>
-      #background{
-            background-image: url('./images/day.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center center;
-            background-size: cover;
 
-        
+<head>
+  <title>Cultural event</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" src="src/index.js"></script>
+  <style>
+    #background {
+      background-image: url('./images/day.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center center;
+      background-size: cover;
+
+
+    }
+
+    .glow {
+      font-size: 50px;
+      color: yellow;
+      text-align: center;
+      font-family: cursive;
+      animation: glow 1s ease-in-out infinite alternate;
+      padding: 20px;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
       }
-    </style>
-  </head>
-  <body id="background">
-    <div id="app">Rendering...</div>
 
-    <script>
-      // function changeBackgroundImage() {
-      //       const currentHour = new Date().getHours(); // Get the current hour (0-23)
-      //       const body = document.body;
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px blue, 0 0 50px blue, 0 0 60px blue, 0 0 70px blue, 0 0 80px blue;
+      }
+    }
+  </style>
+</head>
 
-      //       // Check if the hour is between 18 (6 PM) and 6 (6 AM)
-      //       if (currentHour >= 18 || currentHour < 6) {
-      //           // Change to night background image
-      //           body.style.backgroundImage = "url('./images/night.jpg')";
-      //       } else {
-      //           // Change to day background image
-      //           body.style.backgroundImage = "url('./images/day.jpg')";
-      //       }
-      //   }
+<body id="background">
+  <div class="glow"> Cultural Programme </div>
+  <div id="app">Rendering...</div>
 
-      //   // Call the function when the window loads
-      //   window.onload = changeBackgroundImage;
-    </script>
-  </body>
-</html>  
+  <script>
+    // function changeBackgroundImage() {
+    //       const currentHour = new Date().getHours(); // Get the current hour (0-23)
+    //       const body = document.body;
+
+    //       // Check if the hour is between 18 (6 PM) and 6 (6 AM)
+    //       if (currentHour >= 18 || currentHour < 6) {
+    //           // Change to night background image
+    //           body.style.backgroundImage = "url('./images/night.jpg')";
+    //       } else {
+    //           // Change to day background image
+    //           body.style.backgroundImage = "url('./images/day.jpg')";
+    //       }
+    //   }
+
+    //   // Call the function when the window loads
+    //   window.onload = changeBackgroundImage;
+  </script>
+</body>
+
+</html>
