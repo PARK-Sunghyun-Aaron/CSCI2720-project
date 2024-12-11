@@ -1,9 +1,12 @@
 
 import ReactDOM from 'react-dom/client';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useParams , useLocation } from 'react-router-dom';
 import GoogleMapReact from 'google-map-react';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 
 //For storing event
 let eventsArray = [];
@@ -119,6 +122,48 @@ const Map = () => {
   return <div id="map" style={{width:"50%", height: "75vh" }}></div>;
 };
 
+const Toast = ({ message, type, onClose, style }) => {
+  const toastRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize the Bootstrap toast
+    const toastElement = toastRef.current;
+    const toast = new window.bootstrap.Toast(toastElement);
+    toast.show();
+
+    // Automatically close the toast after 3 seconds
+    const timer = setTimeout(() => {
+      toast.hide();
+      if (onClose) {
+        onClose();
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={toastRef}
+      className={`toast align-items-center text-bg-${type} border-0`}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      style={{ ...style, zIndex: 1050 }}
+    >
+      <div className="d-flex">
+        <div className="toast-body">{message}</div>
+        <button
+          type="button"
+          className="btn-close btn-close-white me-2 m-auto"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
+      </div>
+    </div>
+  );
+};
+
 /// App Component
 const App = () => {
   const [eventsArray, setEventsArray] = useState([]);
@@ -201,7 +246,7 @@ const App = () => {
             <Link to="/map">Map</Link>
           </li>
           <li className="list-group-item">
-            <Link to="/slideshow">Favourite</Link>
+            <Link to="/favorites">Favorites</Link> {/* Add this */}
           </li>
           <li className="list-group-item">
             <Link to="/slideshow">No Idea?</Link>
@@ -215,6 +260,7 @@ const App = () => {
         <Route path="/" element={<Home eventsArray={eventsArray} />} />
         <Route path="/gallery" element={<Gallery venuesArray={venuesArray} />} />
         <Route path="/slideshow" element={<Slideshow venueShown={venueShown} />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/map" element={<Map venueShown={venueShown} />} />
         <Route path="/location/:id" element={<LocationDetail venuesArray={venuesArray} />} />
       </Routes>
@@ -265,7 +311,9 @@ const LocationDetail = ({ venuesArray }) => {
   const { id } = useParams();
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false); // Track if the location is a favorite
   const [comments, setComments] = useState([]); // Store comments for the location
+  const [toast, setToast] = useState(null); // Toast state
   const [newComment, setNewComment] = useState({
     email: "",
     text: "",
@@ -274,6 +322,7 @@ const LocationDetail = ({ venuesArray }) => {
 
   useEffect(() => {
     // Find the location by ID
+    
     if (venuesArray.length > 0) {
       const foundLocation = venuesArray.find((venue) => venue.id === id);
       setLocation(foundLocation);
@@ -283,6 +332,11 @@ const LocationDetail = ({ venuesArray }) => {
       const savedComments = JSON.parse(localStorage.getItem(`comments-${id}`)) || [];
       setComments(savedComments);
     }
+
+    // Check if this location is already in favorites
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+
   }, [venuesArray, id]);
 
   const handleInputChange = (e) => {
@@ -307,8 +361,19 @@ const LocationDetail = ({ venuesArray }) => {
     localStorage.setItem(`comments-${id}`, JSON.stringify(updatedComments));
 
     // Clear the comment form
-    setNewComment({ email: "", text: "", color: "red" });
+    setNewComment({ email: "", text: ""});
+    setToast({
+      message: "Comment posted successfully!",
+      type: "success",
+      style: {
+        
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
+      }
+    });
   };
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -318,9 +383,43 @@ const LocationDetail = ({ venuesArray }) => {
     return <div>Location not found</div>;
   }
 
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    if (isFavorite) {
+      const updatedFavorites = favorites.filter((fav) => fav.id !== id);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      setIsFavorite(false);
+      setToast({ message: "Removed from favorites!", type: "danger", style: { position: "fixed", top: "20px", right: "20px", zIndex: 1050 }});
+    } else {
+      const newFavorite = {
+        id: location.id,
+        venue: location.venue,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      };
+      const updatedFavorites = [...favorites, newFavorite];
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      setIsFavorite(true);
+      setToast({ message: "Added to favorites!", type: "success", style: { position: "fixed", top: "20px", right: "20px", zIndex: 1050 } });
+    }
+  };
+
   return (
     <div>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+          style={toast.style}
+        />
+      )}
       <h1>{location.venue}</h1>
+      {/* Favorite Button */}
+      <button className="btn btn-primary" onClick={toggleFavorite}>
+        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      </button>
       <p>Latitude: {location.latitude}</p>
       <p>Longitude: {location.longitude}</p>
       <p>Event Count: {location.count}</p>
@@ -402,6 +501,45 @@ const GoogleMap = ({ latitude, longitude }) => {
 
   return null;
 }
+
+const Favorites = () => {
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    // Load favorites from localStorage
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites);
+  }, []);
+
+  const removeFavorite = (id) => {
+    const updatedFavorites = favorites.filter((fav) => fav.id !== id);
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+
+  return (
+    <div>
+      <h1>Favorite Locations</h1>
+      {favorites.length > 0 ? (
+        <ul>
+          {favorites.map((fav) => (
+            <li key={fav.id}>
+              <strong>{fav.venue}</strong> (Lat: {fav.latitude}, Lng: {fav.longitude})
+              <button
+                className="btn btn-danger btn-sm ms-2"
+                onClick={() => removeFavorite(fav.id)}
+              >
+                Remove
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No favorite locations yet.</p>
+      )}
+    </div>
+  );
+};
 
 const root = ReactDOM.createRoot(document.querySelector('#app'));
 root.render(<App />);
