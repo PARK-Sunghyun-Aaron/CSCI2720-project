@@ -519,7 +519,7 @@ const Favorites = () => {
 
   return (
     <div>
-      <h1>Favorite Locations</h1>
+      <h1>Favorite Venues</h1>
       {favorites.length > 0 ? (
         <ul>
           {favorites.map((fav) => (
