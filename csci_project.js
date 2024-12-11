@@ -109,13 +109,31 @@ app.get('/', (req, res) => {
                 cursor: pointer;
             }
             button:hover {
-                background-color: #4cae4c;
+                background-color: red;
+            }
+            .theme-switch {
+                margin-bottom: 20px;
+                cursor: pointer;
+                text-align: center;
+                padding: 10px;
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+            }
+            body.dark {
+                background-color: #333;
+                color: white;
+            }
+            .container.dark {
+                background-color: #444;
+                color: white;
             }
         </style>
     </head>
     <body>
         <div class="container">
             <h2>Login</h2>
+            <div class="theme-switch" onclick="toggleTheme()">Switch Theme</div>
             <form action="/login" method="POST">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
@@ -126,6 +144,12 @@ app.get('/', (req, res) => {
                 <button type="submit">Login</button>
             </form>
         </div>
+        <script>
+            function toggleTheme() {
+                document.body.classList.toggle('dark');
+                document.querySelector('.container').classList.toggle('dark');
+            }
+        </script>
     </body>
     </html>
     `);
@@ -166,20 +190,122 @@ app.post('/login', async (req, res) => {
 // User dashboard route
 app.get('/user-dashboard', (req, res) => {
     if (req.session.user && req.session.user.role === 'user') {
-        res.send('<h1>Welcome to User Dashboard!</h1>');           //Put your own code action of User actions here
+        res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>User Dashboard</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    transition: background-color 0.3s;
+                }
+                .container {
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    transition: background-color 0.3s, color 0.3s;
+                }
+                body.dark {
+                    background-color: #333;
+                    color: white;
+                }
+                .container.dark {
+                    background-color: #444;
+                    color: white;
+                }
+                .theme-switch {
+                    margin-bottom: 20px;
+                    cursor: pointer;
+                    text-align: center;
+                    padding: 10px;
+                    background-color: #007bff;
+                    color: white;
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Welcome to User Dashboard!</h1>
+                <div class="theme-switch" onclick="toggleTheme()">Switch Theme</div>
+            </div>
+            <script>
+                function toggleTheme() {
+                    document.body.classList.toggle('dark');
+                    document.querySelector('.container').classList.toggle('dark');
+                }
+            </script>
+        </body>
+        </html>
+        `);
     } else {
         res.redirect('/'); // Redirect to login if not authorized
     }
-});
+});// Put User action here
 
 // Admin dashboard route
 app.get('/admin-dashboard', (req, res) => {
     if (req.session.user && req.session.user.role === 'admin') {
-        res.send('<h1>Welcome to Admin Dashboard!</h1>');           //Put your Admin actions here
+        res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Admin Dashboard</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    transition: background-color 0.3s;
+                }
+                .container {
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    transition: background-color 0.3s, color 0.3s;
+                }
+                body.dark {
+                    background-color: #333;
+                    color: white;
+                }
+                .container.dark {
+                    background-color: #444;
+                    color: white;
+                }
+                .theme-switch {
+                    margin-bottom: 20px;
+                    cursor: pointer;
+                    text-align: center;
+                    padding: 10px;
+                    background-color: #007bff;
+                    color: white;
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Welcome to Admin Dashboard!</h1>
+                <div class="theme-switch" onclick="toggleTheme()">Switch Theme</div>
+            </div>
+            <script>
+                function toggleTheme() {
+                    document.body.classList.toggle('dark');
+                    document.querySelector('.container').classList.toggle('dark');
+                }
+            </script>
+        </body>
+        </html>
+        `);
     } else {
         res.redirect('/'); // Redirect to login if not authorized
     }
-});
+});// Put Admin action here
 
 // Start the server
 app.listen(PORT, () => {
