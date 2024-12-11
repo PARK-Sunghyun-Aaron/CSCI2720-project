@@ -56,6 +56,85 @@
         <br>
         <input type="submit" value="Delete">
     </form>
+    <br>
+
+    <!-- location and events-->
+    <p>Click the find button to find a event</p>
+    <form id="findEventIdForm">
+        <label for="findEventId">Event ID:</label>
+        <input type="text" id="findEventId" name="findEventId">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the create button to create a new event data</p>
+    <form id="createEventForm">
+        <label for="newEventName">Event name:</label>
+        <input type="text" id="newEventName" name="newEventName">
+        <br>
+        <label for="newEventQuota">Event quota:</label>
+        <input type="text" id="newEventQuota" name="newEventQuota">
+        <br>
+        <label for="locationName">Location name:</label>
+        <input type="text" id="locationName" name="locationName">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the delete button to delete a event data</p>
+    <form id="deleteEventForm">
+        <label for="deleteEvent">Event ID:</label>
+        <input type="text" id="deleteEvent" name="deleteEvent">
+        <br>
+        <input type="submit" value="Delete">
+    </form>    
+
+    <p>Click the button to list all event data</p>
+    <form id="listEventForm">
+        <label for="listEvent">List every event</label>
+        <br>
+        <input type="submit" value="Submit" id="listEvent" name="listEvent">
+    </form> 
+
+    <p>Click the find button to find a location</p>
+    <form id="findLocationNameForm">
+        <label for="findLocationName">Location name:</label>
+        <input type="text" id="findLocationName" name="findLocationName">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the button to list all location data</p>
+    <form id="listLocationForm">
+        <label for="listLocation">List every location</label>
+        <br>
+        <input type="submit" value="Submit" id="listLocation" name="listLocation">
+    </form> 
+
+    <p>Click the update button to update a event data</p>
+    <form id="loadEventForm">
+        <label for="loadEventId">Event ID:</label>
+        <input type="text" id="loadEventId" name="loadEventId"required>
+        <br>
+        <input type="submit" value="Load Event">
+    </form>
+    
+    <form id="updateEventForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"required>
+
+        <label for="quota">Quota:</label>
+        <input type="number" id="quota" name="quota" required>
+
+        <label for="loc">Location Id:</label>
+        <input type="text" id="loc" name="loc" required>
+
+        <input type="submit" value="Update Event">
+    </form>
+    <br>
 
     <script>
         document.getElementById('createUserIdForm').addEventListener('submit', async (event) => {
@@ -144,6 +223,7 @@
             document.close();
         });
 
+
         document.getElementById('deleteUserIdForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             const deleteUserId = document.getElementById('deleteUserId').value;
@@ -155,6 +235,166 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        // location and events
+        document.getElementById('findEventIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            let eventId = document.getElementById('findEventId').value;
+            const url = 'http://localhost:3000/ev/'+eventId;
+
+            const response = await fetch(url, { 
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('createEventForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const newEventName = document.getElementById('newEventName').value;
+            const newEventQuota = document.getElementById('newEventQuota').value;
+            const locationName = document.getElementById('locationName').value;
+            const data = {
+                "name": newEventName,
+                "quota": newEventQuota,
+                "locationName": locationName,
+            };
+            const url = 'http://localhost:3000/ev';
+            console.log(url);
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('deleteEventForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            let eventId = document.getElementById('deleteEvent').value;
+            const url = 'http://localhost:3000/ev/'+eventId;
+
+            const response = await fetch(url, { 
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('listEventForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const url = 'http://localhost:3000/ev';
+
+            const response = await fetch(url, { 
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('findLocationNameForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            let locationName = document.getElementById('findLocationName').value;
+            const url = 'http://localhost:3000/lo/'+locationName;
+
+            const response = await fetch(url, { 
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('listLocationForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const url = 'http://localhost:3000/lo';
+
+            const response = await fetch(url, { 
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('loadEventForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const loadEventId = document.getElementById('loadEventId').value;
+            const url = 'http://localhost:3000/loadEvent/'+loadEventId;
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const eventData = await response.json();
+            document.getElementById('name').value = eventData.name;
+            document.getElementById('quota').value = eventData.quota;
+            document.getElementById('loc').value = eventData.loc;
+        });
+
+        document.getElementById('updateEventForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            let updateEventId = document.getElementById('loadEventId').value;
+            const name = document.getElementById('name').value;
+            const quota = document.getElementById('quota').value;
+            const loc = document.getElementById('loc').value;
+            const url = 'http://localhost:3000/ev/'+updateEventId;
+
+            const data = {
+                "name": name,
+                "locationId": loc,
+                "quota": quota,
+            };
+            const response = await fetch(url, { 
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
             });
 
             const resultPage = await response.text();
