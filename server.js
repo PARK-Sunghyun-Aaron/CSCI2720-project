@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/csci2720Project');
+mongoose.connect('mongodb://127.0.0.1:27017/myDatabase');
 let db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Connection error:'));
