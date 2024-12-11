@@ -14,13 +14,14 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+// match it with the central database
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/myDatabase', {  //Choose your own Database
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
-
+// User Schema
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
@@ -29,6 +30,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+// Security Features (copy all)
 // Input sanitization function
 function sanitizeInput(input) {
     return input.replace(/[<>]/g, ''); // Remove angle brackets to prevent XSS
@@ -45,6 +47,7 @@ function isValidPassword(password) {
     return passwordPattern.test(password) && password.length <= 20;
 }
 
+// Feature to create default users 
 // Create default users with hashed passwords
 async function createDefaultUsers() {
     await User.deleteMany({}); // Clear existing users
@@ -58,6 +61,8 @@ async function createDefaultUsers() {
     ]);
 }
 
+
+// Feature to create default users 
 // Call the function to create default users
 createDefaultUsers().then(() => {
     console.log('Default users created.');
@@ -65,6 +70,7 @@ createDefaultUsers().then(() => {
     console.error('Error creating default users:', err);
 });
 
+// HTML Design (needs to be replaced with the template)
 // Serve the login page
 app.get('/', (req, res) => {
     res.send(`
@@ -156,6 +162,7 @@ app.get('/', (req, res) => {
 });
 
 // Login route
+// hashing and matching algorithm
 app.post('/login', async (req, res) => {
     let { username, password, role } = req.body;
 
@@ -186,7 +193,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
+// Theme toggle - extra feature
 // User dashboard route
 app.get('/user-dashboard', (req, res) => {
     if (req.session.user && req.session.user.role === 'user') {
