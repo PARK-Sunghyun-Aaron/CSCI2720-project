@@ -33,7 +33,7 @@ class App extends React.Component {
                   {' '}
                   <Link to="/favourite" className="nav-link text-primary">Favourite</Link>{' '}
                 </li>
-                <li class="nav-item">
+                <li className="nav-item">
                   {' '}
                   <Link to="/noidea" className="nav-link text-primary">No Idea?</Link>{' '}
                 </li>
