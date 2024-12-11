@@ -20,8 +20,6 @@ class App extends React.Component {
                   {' '}
                   <Link to="/location" className="nav-link text-primary">List of Locations</Link>{' '}
                 </li>
-                {' '}
-                <Link to="/event" className="nav-link text-primary">List of Events</Link>{' '}
                 <li className="nav-item">
                   {' '}
                   <Link to="/event" className="nav-link text-primary">List of Events</Link>{' '}
