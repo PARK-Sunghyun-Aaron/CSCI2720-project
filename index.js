@@ -1,4 +1,4 @@
-// copy Favourites, Map, Toast, GoogleMaps, LocationDetail
+// copy Favourites, Map, Toast, GoogleMaps, LocationDetail + import statements 3-8. i only used the 10 venues visible in my map
 import ReactDOM from 'react-dom/client';
 import React, {useEffect, useState, useRef} from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
