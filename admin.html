@@ -6,110 +6,66 @@
 <body>
     <!-- user data -->
     <p>Click the create button to create a new user data</p>
-    <form id="createUserIdForm">
-        <label for="newUserId">New user ID:</label>
-        <input type="text" id="newUserId" name="newUserId">
+    <form id="createUserForm">
+        <label for="newUserEmail">New user email:</label>
+        <input type="text" id="newUserEmail" name="newUserEmail">
         <br>
         <label for="newUserPassword">New user Password:</label>
         <input type="text" id="newUserPassword" name="newUserPassword">
         <br>
+        <label for="newUserFirstName">New user first name:</label>
+        <input type="text" id="newUserFirstName" name="newUserFirstName">
+        <br>
+        <label for="newUserLastName">New user last name:</label>
+        <input type="text" id="newUserLastName" name="newUserLastName">
+        <br>
+        <label for="newUserRole">Choose a role:</label>
+        <select name="newUserRole" id="newUserRole">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
         <input type="submit" value="Submit">
     </form>
     <br>
-
+    
     <p>Click the read button to read user data</p>
-    <form id="readUserIdForm">
-        <label for="readUserId">Read user ID:</label>
-        <input type="submit" id="readUserId" name="readUserId" value="Submit">
+    <form id="readUserForm">
+        <label for="readUser">User email:</label>
+        <input type="submit" id="readUser" name="readUser" value="Submit">
     </form>
     <br>
 
-    <p>Click the update button to update a user id</p>
-    <form id="updateUserIdForm">
-        <label for="userId_1">User ID:</label>
-        <input type="text" id="userId_1" name="userId_1">
-        <label for="userPassword_1">User Password:</label>
-        <input type="text" id="userPassword_1" name="userPassword_1">
-        <label for="updatedUserId">Updated User ID:</label>
-        <input type="text" id="updatedUserId" name="updatedUserId">
+    <p>Click the load button to load a user data</p>
+    <form id="loadUserForm">
+        <label for="loadUserEmail">User Email:</label>
+        <input type="text" id="loadUserEmail" name="loadUserEmail"required>
         <br>
-        <input type="submit" value="Update">
+        <input type="submit" value="Load User">
     </form>
-    <br>
 
-    <p>Click the update button to update a user password</p>
-    <form id="updateUserPasswordForm">
-        <label for="userId_2">User ID:</label>
-        <input type="text" id="userId_2" name="userId_2">
-        <label for="userPassword_2">User Password:</label>
-        <input type="text" id="userPassword_2" name="userPassword_2">
-        <label for="updatedUserPassword">Updated User Password:</label>
-        <input type="text" id="updatedUserPassword" name="updatedUserPassword">
+    <p>Click the update button to update a user data</p>
+    <form id="updateUserForm">
+        <label for="updateUserEmail">Email:</label>
+        <input type="text" id="updateUserEmail" name="updateUserEmail"required>
         <br>
-        <input type="submit" value="Update">
+        <label for="updateUserPassword">Password:</label>
+        <input type="text" id="updateUserPassword" name="updateUserPassword"required>
+        <br>
+        <label for="updateUserFirstName">First Name:</label>
+        <input type="text" id="updateUserFirstName" name="updateUserFirstName"required>
+        <br>
+        <label for="updateUserLastName">Last Name:</label>
+        <input type="text" id="updateUserLastName" name="updateUserLastName"required>
+        <br>
+
+        <input type="submit" value="Update User">
     </form>
     <br>
 
     <p>Click the delete button to delete a user data</p>
-    <form id="deleteUserIdForm">
-        <label for="deleteUserId">Delete user ID:</label>
-        <input type="text" id="deleteUserId" name="deleteUserId">
-        <br>
-        <input type="submit" value="Delete">
-    </form>
-    <br>
-
-
-    <!-- admin data -->
-    <p>Click the create button to create a new admin data</p>
-    <form id="createAdminIdForm">
-        <label for="newAdminId">New admin ID:</label>
-        <input type="text" id="newAdminId" name="newAdminId">
-        <br>
-        <label for="newAdminPassword">New admin Password:</label>
-        <input type="text" id="newAdminPassword" name="newAdminPassword">
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-    <br>
-
-    <p>Click the read button to read admin data</p>
-    <form id="readAdminIdForm">
-        <label for="readAdminId">Read admin ID:</label>
-        <input type="submit" id="readAdminId" name="readAdminId" value="Submit">
-    </form>
-    <br>
-
-    <p>Click the update button to update a admin id</p>
-    <form id="updateAdminIdForm">
-        <label for="adminId_1">Admin ID:</label>
-        <input type="text" id="adminId_1" name="adminId_1">
-        <label for="adminPassword_1">Admin Password:</label>
-        <input type="text" id="adminPassword_1" name="adminPassword_1">
-        <label for="updatedAdminId">Updated Admin ID:</label>
-        <input type="text" id="updatedAdminId" name="updatedAdminId">
-        <br>
-        <input type="submit" value="Update">
-    </form>
-    <br>
-
-    <p>Click the update button to update a admin password</p>
-    <form id="updateAdminPasswordForm">
-        <label for="adminId_2">Admin ID:</label>
-        <input type="text" id="adminId_2" name="adminId_2">
-        <label for="adminPassword_2">Admin Password:</label>
-        <input type="text" id="adminPassword_2" name="adminPassword_2">
-        <label for="updatedAdminPassword">Updated Admin Password:</label>
-        <input type="text" id="updatedAdminPassword" name="updatedAdminPassword">
-        <br>
-        <input type="submit" value="Update">
-    </form>
-    <br>
-
-    <p>Click the delete button to delete a admin data</p>
-    <form id="deleteAdminIdForm">
-        <label for="deleteAdminId">Delete admin ID:</label>
-        <input type="text" id="deleteAdminId" name="deleteAdminId">
+    <form id="deleteUserForm">
+        <label for="deleteUserEmail">User email:</label>
+        <input type="text" id="deleteUserEmail" name="deleteUserEmail">
         <br>
         <input type="submit" value="Delete">
     </form>
@@ -195,16 +151,24 @@
     <br>
 
     <script>
-        // user
-        document.getElementById('createUserIdForm').addEventListener('submit', async (event) => {
+
+        // create a new user data
+        document.getElementById('createUserForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            const userId = document.getElementById('newUserId').value;
+            console.log("creating user");
+            const userEmail = document.getElementById('newUserEmail').value;
             const userPassword = document.getElementById('newUserPassword').value;
+            const userFirstName = document.getElementById('newUserFirstName').value;
+            const userLastName = document.getElementById('newUserLastName').value;
+            const userRole = document.getElementById('newUserRole').value;
             const data = {
-                userId: userId,
+                userEmail: userEmail,
                 userPassword: userPassword,
+                userFirstName: userFirstName,
+                userLastName: userLastName,
+                userRole: userRole,
             };
-            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword;
+            const url = 'http://localhost:3000/createNewUser';
 
             const response = await fetch(url, { 
                 method: 'POST',
@@ -214,18 +178,17 @@
                 body: JSON.stringify(data)
             });
             
-            /* commented to not show the result
             const resultPage = await response.text();
             document.open();
             document.write(resultPage);
             document.close();
-            */
+            
         });
 
-        document.getElementById('readUserIdForm').addEventListener('submit', async (event) => {
+        // read every user data
+        document.getElementById('readUserForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            console.log("11111");
-            const url = 'http://localhost:3000/readUserId';
+            const url = 'http://localhost:3000/readUser';
 
             const response = await fetch(url, { 
                 method: 'POST',
@@ -240,99 +203,60 @@
             document.close();
         });
 
-        document.getElementById('updateUserIdForm').addEventListener('submit', async (event) => {
+        // update a user data
+        document.getElementById('loadUserForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            const userId = document.getElementById('userId_1').value;
-            const userPassword = document.getElementById('userPassword_1').value;
-            const updatedUserId = document.getElementById('updatedUserId').value;
+            const loadUserEmail = document.getElementById('loadUserEmail').value;
+            const url = 'http://localhost:3000/loadUser/'+loadUserEmail;
 
-            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword+'/updatedUserId/'+updatedUserId;
-
-            const response = await fetch(url, { 
-                method: 'POST',
+            const response = await fetch(url, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
             });
-
-            const resultPage = await response.text();
-            document.open();
-            document.write(resultPage);
-            document.close();
+            const userData = await response.json();
+            document.getElementById('updateUserEmail').value = userData.email;
+            document.getElementById('updateUserPassword').value = userData.password;
+            document.getElementById('updateUserFirstName').value = userData.firstName;
+            document.getElementById('updateUserLastName').value = userData.lastName;
         });
 
-        document.getElementById('updateUserPasswordForm').addEventListener('submit', async (event) => {
+        document.getElementById('updateUserForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            const userId = document.getElementById('userId_2').value;
-            const userPassword = document.getElementById('userPassword_2').value;
-            const updatedUserPassword = document.getElementById('updatedUserPassword').value;
+            let userEmail = document.getElementById('loadUserEmail').value;
+            const updateUserEmail = document.getElementById('updateUserEmail').value;
+            const updateUserPassword = document.getElementById('updateUserPassword').value;
+            const updateUserFirstName = document.getElementById('updateUserFirstName').value;
+            const updateUserLastName = document.getElementById('updateUserLastName').value;
+            const url = 'http://localhost:3000/updateUser/'+userEmail;
 
-            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword+'/updatedUserPassword/'+updatedUserPassword;
-
-            const response = await fetch(url, { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-            const resultPage = await response.text();
-            document.open();
-            document.write(resultPage);
-            document.close();
-        });
-
-
-        document.getElementById('deleteUserIdForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const deleteUserId = document.getElementById('deleteUserId').value;
-
-            const url = 'http://localhost:3000/deleteUserId/'+deleteUserId;
-
-            const response = await fetch(url, { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-            const resultPage = await response.text();
-            document.open();
-            document.write(resultPage);
-            document.close();
-        });
-
-
-        // admin
-        document.getElementById('createAdminIdForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const adminId = document.getElementById('newAdminId').value;
-            const adminPassword = document.getElementById('newAdminPassword').value;
             const data = {
-                adminId: adminId,
-                adminPassword: adminPassword,
+                "email": updateUserEmail,
+                "password": updateUserPassword,
+                "firstName": updateUserFirstName,
+                "lastName": updateUserLastName,
             };
-            const url = 'http://localhost:3000/adminId/'+adminId+'/adminPassword/'+adminPassword;
-
             const response = await fetch(url, { 
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             });
-            
-            /* commented to not show the result
+
             const resultPage = await response.text();
             document.open();
             document.write(resultPage);
             document.close();
-            */
-        });
+        });   
 
-        document.getElementById('readAdminIdForm').addEventListener('submit', async (event) => {
+
+        document.getElementById('deleteUserForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            const url = 'http://localhost:3000/readAdminId';
+            const deleteUserEmail = document.getElementById('deleteUserEmail').value;
+
+            const url = 'http://localhost:3000/deleteUser/'+deleteUserEmail;
 
             const response = await fetch(url, { 
                 method: 'POST',
@@ -346,69 +270,6 @@
             document.write(resultPage);
             document.close();
         });
-
-        document.getElementById('updateAdminIdForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const adminId = document.getElementById('adminId_1').value;
-            const adminPassword = document.getElementById('adminPassword_1').value;
-            const updatedAdminId = document.getElementById('updatedAdminId').value;
-
-            const url = 'http://localhost:3000/adminId/'+adminId+'/adminPassword/'+adminPassword+'/updatedAdminId/'+updatedAdminId;
-
-            const response = await fetch(url, { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-            const resultPage = await response.text();
-            document.open();
-            document.write(resultPage);
-            document.close();
-        });
-
-        document.getElementById('updateAdminPasswordForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const adminId = document.getElementById('adminId_2').value;
-            const adminPassword = document.getElementById('adminPassword_2').value;
-            const updatedAdminPassword = document.getElementById('updatedAdminPassword').value;
-
-            const url = 'http://localhost:3000/adminId/'+adminId+'/adminPassword/'+adminPassword+'/updatedAdminPassword/'+updatedAdminPassword;
-
-            const response = await fetch(url, { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-            const resultPage = await response.text();
-            document.open();
-            document.write(resultPage);
-            document.close();
-        });
-
-
-        document.getElementById('deleteAdminIdForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const deleteAdminId = document.getElementById('deleteAdminId').value;
-
-            const url = 'http://localhost:3000/deleteAdminId/'+deleteAdminId;
-
-            const response = await fetch(url, { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-            const resultPage = await response.text();
-            document.open();
-            document.write(resultPage);
-            document.close();
-        });
-
 
         // location and events
         document.getElementById('findEventIdForm').addEventListener('submit', async (event) => {

@@ -15,19 +15,36 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function () {
     console.log("Conenction is open...");
 
-    const userSchema = mongoose.Schema({
-        userID: {type: String, required: [true, "userID is required"], unique: [true, "unique userID is required"], },
-        userPassword: {type: String, required: true},
+    const userSchema = new mongoose.Schema({
+        email: { 
+            type: String, 
+            required: true, 
+            unique: true 
+        },
+        password: { 
+            type: String, 
+            required: true 
+        },
+        firstName: { 
+            type: String, 
+            required: true 
+        },
+        lastName: { 
+            type: String, 
+            required: true 
+        },
+        role: { 
+            type: String, 
+            enum: ['user', 'admin'], 
+            default: 'user' 
+        },
+        events: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'Event',
+            default: [],
+        }
     });
-
     const User = mongoose.model("User", userSchema);
-
-    const adminSchema = mongoose.Schema({
-        adminID: {type: String, required: [true, "adminID is required"], unique: [true, "unique adminID is required"], },
-        adminPassword: {type: String, required: true},
-    });
-
-    const Admin = mongoose.model("Admin", adminSchema);
 
     const LocationSchema = mongoose.Schema({
         locName: {
@@ -70,15 +87,23 @@ db.once('open', function () {
     });
     const Event = mongoose.model('Event', EventSchema);
 
-    // user
-    app.post('/userId/:userId/userPassword/:userPassword', (req, res) => {
+    // create a new user data
+    app.post('/createNewUser', (req, res) => {
         console.log("creating new user data...");
-        const newUserId = req.params.userId;
-        const newUserPassword = req.params.userPassword;
+        const newUserEmail = req.body.userEmail;
+        const newUserPassword = req.body.userPassword;
+        const newUserFirstName = req.body.userFirstName;
+        const newUserLastName = req.body.userLastName;
+        const newUserRole = req.body.userRole;
+        
 
         let newUser = new User({
-            userID: newUserId,
-            userPassword: newUserPassword,
+            email: newUserEmail,
+            password: newUserPassword,
+            firstName: newUserFirstName,
+            lastName: newUserLastName,
+            role: newUserRole,
+            events: []
         });
         newUser
             .save()
@@ -92,11 +117,14 @@ db.once('open', function () {
         const message = `
         <html>
         <head>
-            <title>Create User Id</title>
+            <title>Created User</title>
         </head>
         <body>
-            <p>New user id: ${newUserId}</p>
+            <p>New user email: ${newUserEmail}</p>
             <p>New user password: ${newUserPassword}</p>
+            <p>New user firstName: ${newUserFirstName}</p>
+            <p>New user lastName: ${newUserLastName}</p>
+            <p>New user role: ${newUserRole}</p>
         </body>
         </html>
         `;
@@ -104,12 +132,10 @@ db.once('open', function () {
         res.setHeader('Content-Type', 'text/html');
         res.send(message);
         
-        
-        
     });
 
-    app.post('/readUserId', (req, res) => {
-        console.log("reading user id...");
+    app.post('/readUser', (req, res) => {
+        console.log("reading user data...");
 
         User.find({})
         .then( (data) => {
@@ -134,92 +160,65 @@ db.once('open', function () {
         res.send(message);
     });
 
-    app.post('/userId/:userId/userPassword/:userPassword/updatedUserId/:updatedUserId', (req, res) => {
-        console.log("updating user id...");
-
+    app.get('/loadUser/:userEmail', (req, res) => {
+        const userEmail = req.params.userEmail;
+        console.log('Fetching user with email:', userEmail);
+    
+        User.findOne({ email: userEmail })
+        .then((user) => {
+            if (!user) {
+                return res.status(404).send('Event not found.');
+            }
+            res.json(user);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Internal server error');
+        });
+    });
+    
+    app.put('/updateUser/:userEmail', (req, res) => {
+        const userEmail = req.params.userEmail;
+        console.log('Fetching user with email:', userEmail);
+    
+        const updatedName = req.body.name;
+        const updatedLocationId = req.body.locationId;
+        const updatedQuota = req.body.quota;
+        
         const filter = {
-            userID: req.params.userId,
-            userPassword: req.params.userPassword,
+            email: req.params.userEmail,
         };
         const update = {
-            userID: req.params.updatedUserId,
-            userPassword: req.params.userPassword,
+            email: req.body.email,
+            password: req.body.password,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
         };
-
-        User.findOneAndUpdate(filter, update,
-            {new: true}
+    
+        User.findOneAndUpdate(filter,update,
+            { new: true }
         )
-        .then ( (data) => {
-            console.log("the updated data is: ", data);
+        .then((updatedUser) => {
+            if (!updatedUser) {
+                return res.status(404).send('Event not found.');
+            }
+            res.send('Updated user.');
         })
-        .catch( (err) => {
-            console.log(err);
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Internal server error');
         });
-
-        const message = `
-            <html>
-            <head>
-                <title>Update User Id</title>
-            </head>
-            <body>
-                <p></p>
-            </body>
-            </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-
     });
 
-    app.post('/userId/:userId/userPassword/:userPassword/updatedUserPassword/:updatedUserPassword', (req, res) => {
-        console.log("updating user password...");
-
-        const filter = {
-            userID: req.params.userId,
-            userPassword: req.params.userPassword,
-        };
-        const update = {
-            userID: req.params.userId,
-            userPassword: req.params.updatedUserPassword,
-        };
-
-        User.findOneAndUpdate(filter, update,
-            {new: true}
-        )
-        .then ( (data) => {
-            console.log("the updated data is: ", data);
-        })
-        .catch( (err) => {
-            console.log(err);
-        });
-
-        const message = `
-            <html>
-            <head>
-                <title>Update User Id</title>
-            </head>
-            <body>
-                <p></p>
-            </body>
-            </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-
-    });
-
-
-    app.post('/deleteUserId/:deleteUserId', (req, res) => {
-        console.log("deleting user id...");
-        const deleteUserId = req.params.deleteUserId;
+    app.post('/deleteUser/:deleteUserEmail', (req, res) => {
+        console.log("deleting user data...");
+        const deleteUserEmail = req.params.deleteUserEmail;
 
         User.findOneAndDelete(
-            {userID: deleteUserId},
+            {email: deleteUserEmail},
         )
-        .then ( (data) => {
-            console.log("the deleted data is: ", data);
+        .then ( (user) => {
+            console.log("the deleted user is: ", user);
         })
         .catch( (err) => {
             console.log(err);
@@ -240,175 +239,6 @@ db.once('open', function () {
         res.send(message);
     });
 
-    // admin
-    app.post('/adminId/:adminId/adminPassword/:adminPassword', (req, res) => {
-        console.log("creating new admin data...");
-        const newAdminId = req.params.adminId;
-        const newAdminPassword = req.params.adminPassword;
-
-        let newAdmin = new Admin({
-            adminID: newAdminId,
-            adminPassword: newAdminPassword,
-        });
-        newAdmin
-            .save()
-            .then(()=> {
-                console.log("a new admin data is created successfully");
-            })
-            .catch((error)=> {
-                console.log(error);
-            });
-        
-        const message = `
-        <html>
-        <head>
-            <title>Create User Id</title>
-        </head>
-        <body>
-            <p>New admin id: ${newAdminId}</p>
-            <p>New admin password: ${newAdminPassword}</p>
-        </body>
-        </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-        
-        
-        
-    });
-
-    app.post('/readAdminId', (req, res) => {
-        console.log("reading admin id...");
-
-        Admin.find({})
-        .then( (data) => {
-            console.log(data);
-        })
-        .catch( (err) => {
-            console.log("failed to read");
-        });
-
-        const message = `
-            <html>
-            <head>
-                <title>Read Admin Id</title>
-            </head>
-            <body>
-                <p></p>
-            </body>
-            </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-    });
-
-    app.post('/adminId/:adminId/adminPassword/:adminPassword/updatedAdminId/:updatedAdminId', (req, res) => {
-        console.log("updating admin id...");
-
-        const filter = {
-            adminID: req.params.adminId,
-            adminPassword: req.params.adminPassword,
-        };
-        const update = {
-            adminID: req.params.updatedAdminId,
-            adminPassword: req.params.adminPassword,
-        };
-
-        Admin.findOneAndUpdate(filter, update,
-            {new: true}
-        )
-        .then ( (data) => {
-            console.log("the updated data is: ", data);
-        })
-        .catch( (err) => {
-            console.log(err);
-        });
-
-        const message = `
-            <html>
-            <head>
-                <title>Update Admin Id</title>
-            </head>
-            <body>
-                <p></p>
-            </body>
-            </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-
-    });
-
-    app.post('/adminId/:adminId/adminPassword/:adminPassword/updatedAdminPassword/:updatedAdminPassword', (req, res) => {
-        console.log("updating admin password...");
-
-        const filter = {
-            adminID: req.params.adminId,
-            adminPassword: req.params.adminPassword,
-        };
-        const update = {
-            adminID: req.params.adminId,
-            adminPassword: req.params.updatedAdminPassword,
-        };
-
-        Admin.findOneAndUpdate(filter, update,
-            {new: true}
-        )
-        .then ( (data) => {
-            console.log("the updated data is: ", data);
-        })
-        .catch( (err) => {
-            console.log(err);
-        });
-
-        const message = `
-            <html>
-            <head>
-                <title>Update User Id</title>
-            </head>
-            <body>
-                <p></p>
-            </body>
-            </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-
-    });
-
-
-    app.post('/deleteAdminId/:deleteAdminId', (req, res) => {
-        console.log("deleting admin id...");
-        const deleteAdminId = req.params.deleteAdminId;
-
-        Admin.findOneAndDelete(
-            {adminID: deleteAdminId},
-        )
-        .then ( (data) => {
-            console.log("the deleted data is: ", data);
-        })
-        .catch( (err) => {
-            console.log(err);
-        });
-
-        const message = `
-            <html>
-            <head>
-                <title>Delete User Id</title>
-            </head>
-            <body>
-                <p></p>
-            </body>
-            </html>
-        `;
-
-        res.setHeader('Content-Type', 'text/html');
-        res.send(message);
-    });
 
     //location and events
     app.get('/ev/:eventID', (req,res) => {
