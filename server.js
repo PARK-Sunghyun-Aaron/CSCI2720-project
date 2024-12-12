@@ -15,19 +15,19 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function () {
     console.log("Conenction is open...");
 
-    const UserSchema = mongoose.Schema({
+    const userSchema = mongoose.Schema({
         userID: {type: String, required: [true, "userID is required"], unique: [true, "unique userID is required"], },
         userPassword: {type: String, required: true},
     });
 
-    const User = mongoose.model("User", UserSchema);
+    const User = mongoose.model("User", userSchema);
 
-    const AdminSchema = mongoose.Schema({
+    const adminSchema = mongoose.Schema({
         adminID: {type: String, required: [true, "adminID is required"], unique: [true, "unique adminID is required"], },
         adminPassword: {type: String, required: true},
     });
 
-    const Admin = mongoose.model("Admin", AdminSchema);
+    const Admin = mongoose.model("Admin", adminSchema);
 
     const LocationSchema = mongoose.Schema({
         locName: {
