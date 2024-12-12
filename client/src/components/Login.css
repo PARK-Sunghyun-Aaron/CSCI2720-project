@@ -1,0 +1,67 @@
+/* client/src/components/Login.css */
+.container-fluid {
+    height: 100vh; /* Full height for the container */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.left-side {
+    background-color: #f0f2f5; /* Light background color */
+    padding: 20px; /* Padding around the content */
+    margin-left: -15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensure it takes full height */
+}
+
+.project-heading {
+    font-size: 2.5rem; /* Adjust the font size */
+    margin-bottom: 20px; /* Space below the heading */
+    text-align: center; /* Center the heading */
+}
+
+.logo-image {
+    width: 80%; /* Adjust the image size */
+    max-width: 300px; /* Max width for the image */
+    margin-bottom: 20px; /* Space below the image */
+}
+
+.filler-info {
+    text-align: center; /* Center the filler information */
+    color: #f8f9fa; /* Darker text color for contrast */
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card h2 {
+    font-weight: 600;
+}
+
+.btn-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.btn-black {
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+
+.btn-light {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #495057;
+}
+
+.btn {
+    margin-top: 5px; /* Minimal margin at the top */
+}
