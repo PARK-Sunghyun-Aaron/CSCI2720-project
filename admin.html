@@ -4,6 +4,7 @@
     <title>Admin</title>
 </head>
 <body>
+    <!-- user data -->
     <p>Click the create button to create a new user data</p>
     <form id="createUserIdForm">
         <label for="newUserId">New user ID:</label>
@@ -23,7 +24,7 @@
     </form>
     <br>
 
-    <p>Click the update button to update a user data</p>
+    <p>Click the update button to update a user id</p>
     <form id="updateUserIdForm">
         <label for="userId_1">User ID:</label>
         <input type="text" id="userId_1" name="userId_1">
@@ -36,14 +37,14 @@
     </form>
     <br>
 
-    <p>Click the update button to update a user data</p>
-    <form id="updatePasswordForm">
+    <p>Click the update button to update a user password</p>
+    <form id="updateUserPasswordForm">
         <label for="userId_2">User ID:</label>
         <input type="text" id="userId_2" name="userId_2">
         <label for="userPassword_2">User Password:</label>
         <input type="text" id="userPassword_2" name="userPassword_2">
-        <label for="updatedPassword">Updated User Password:</label>
-        <input type="text" id="updatedPassword" name="updatedPassword">
+        <label for="updatedUserPassword">Updated User Password:</label>
+        <input type="text" id="updatedUserPassword" name="updatedUserPassword">
         <br>
         <input type="submit" value="Update">
     </form>
@@ -58,7 +59,64 @@
     </form>
     <br>
 
-    <!-- location and events-->
+
+    <!-- admin data -->
+    <p>Click the create button to create a new admin data</p>
+    <form id="createAdminIdForm">
+        <label for="newAdminId">New admin ID:</label>
+        <input type="text" id="newAdminId" name="newAdminId">
+        <br>
+        <label for="newAdminPassword">New admin Password:</label>
+        <input type="text" id="newAdminPassword" name="newAdminPassword">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the read button to read admin data</p>
+    <form id="readAdminIdForm">
+        <label for="readAdminId">Read admin ID:</label>
+        <input type="submit" id="readAdminId" name="readAdminId" value="Submit">
+    </form>
+    <br>
+
+    <p>Click the update button to update a admin id</p>
+    <form id="updateAdminIdForm">
+        <label for="adminId_1">Admin ID:</label>
+        <input type="text" id="adminId_1" name="adminId_1">
+        <label for="adminPassword_1">Admin Password:</label>
+        <input type="text" id="adminPassword_1" name="adminPassword_1">
+        <label for="updatedAdminId">Updated Admin ID:</label>
+        <input type="text" id="updatedAdminId" name="updatedAdminId">
+        <br>
+        <input type="submit" value="Update">
+    </form>
+    <br>
+
+    <p>Click the update button to update a admin password</p>
+    <form id="updateAdminPasswordForm">
+        <label for="adminId_2">Admin ID:</label>
+        <input type="text" id="adminId_2" name="adminId_2">
+        <label for="adminPassword_2">Admin Password:</label>
+        <input type="text" id="adminPassword_2" name="adminPassword_2">
+        <label for="updatedAdminPassword">Updated Admin Password:</label>
+        <input type="text" id="updatedAdminPassword" name="updatedAdminPassword">
+        <br>
+        <input type="submit" value="Update">
+    </form>
+    <br>
+
+    <p>Click the delete button to delete a admin data</p>
+    <form id="deleteAdminIdForm">
+        <label for="deleteAdminId">Delete admin ID:</label>
+        <input type="text" id="deleteAdminId" name="deleteAdminId">
+        <br>
+        <input type="submit" value="Delete">
+    </form>
+    <br>
+
+
+    <!-- location and event data -->
     <p>Click the find button to find a event</p>
     <form id="findEventIdForm">
         <label for="findEventId">Event ID:</label>
@@ -137,6 +195,7 @@
     <br>
 
     <script>
+        // user
         document.getElementById('createUserIdForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             const userId = document.getElementById('newUserId').value;
@@ -202,13 +261,13 @@
             document.close();
         });
 
-        document.getElementById('updatePasswordForm').addEventListener('submit', async (event) => {
+        document.getElementById('updateUserPasswordForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             const userId = document.getElementById('userId_2').value;
             const userPassword = document.getElementById('userPassword_2').value;
-            const updatedPassword = document.getElementById('updatedPassword').value;
+            const updatedUserPassword = document.getElementById('updatedUserPassword').value;
 
-            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword+'/updatedPassword/'+updatedPassword;
+            const url = 'http://localhost:3000/userId/'+userId+'/userPassword/'+userPassword+'/updatedUserPassword/'+updatedUserPassword;
 
             const response = await fetch(url, { 
                 method: 'POST',
@@ -242,6 +301,114 @@
             document.write(resultPage);
             document.close();
         });
+
+
+        // admin
+        document.getElementById('createAdminIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const adminId = document.getElementById('newAdminId').value;
+            const adminPassword = document.getElementById('newAdminPassword').value;
+            const data = {
+                adminId: adminId,
+                adminPassword: adminPassword,
+            };
+            const url = 'http://localhost:3000/adminId/'+adminId+'/adminPassword/'+adminPassword;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            /* commented to not show the result
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+            */
+        });
+
+        document.getElementById('readAdminIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const url = 'http://localhost:3000/readAdminId';
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('updateAdminIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const adminId = document.getElementById('adminId_1').value;
+            const adminPassword = document.getElementById('adminPassword_1').value;
+            const updatedAdminId = document.getElementById('updatedAdminId').value;
+
+            const url = 'http://localhost:3000/adminId/'+adminId+'/adminPassword/'+adminPassword+'/updatedAdminId/'+updatedAdminId;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+        document.getElementById('updateAdminPasswordForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const adminId = document.getElementById('adminId_2').value;
+            const adminPassword = document.getElementById('adminPassword_2').value;
+            const updatedAdminPassword = document.getElementById('updatedAdminPassword').value;
+
+            const url = 'http://localhost:3000/adminId/'+adminId+'/adminPassword/'+adminPassword+'/updatedAdminPassword/'+updatedAdminPassword;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
+
+        document.getElementById('deleteAdminIdForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const deleteAdminId = document.getElementById('deleteAdminId').value;
+
+            const url = 'http://localhost:3000/deleteAdminId/'+deleteAdminId;
+
+            const response = await fetch(url, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const resultPage = await response.text();
+            document.open();
+            document.write(resultPage);
+            document.close();
+        });
+
 
         // location and events
         document.getElementById('findEventIdForm').addEventListener('submit', async (event) => {

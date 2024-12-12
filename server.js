@@ -16,16 +16,23 @@ db.once('open', function () {
     console.log("Conenction is open...");
 
     const UserSchema = mongoose.Schema({
-        userID: {type: String, required: true, },
+        userID: {type: String, required: [true, "userID is required"], unique: [true, "unique userID is required"], },
         userPassword: {type: String, required: true},
     });
 
     const User = mongoose.model("User", UserSchema);
 
+    const AdminSchema = mongoose.Schema({
+        adminID: {type: String, required: [true, "adminID is required"], unique: [true, "unique adminID is required"], },
+        adminPassword: {type: String, required: true},
+    });
+
+    const Admin = mongoose.model("Admin", AdminSchema);
+
     const LocationSchema = mongoose.Schema({
         locName: {
             type: String,
-            required: [true, "name is required"],
+            required: [true, "locName is required"],
         },
         latitude: {
             type: Number,
@@ -63,8 +70,9 @@ db.once('open', function () {
     });
     const Event = mongoose.model('Event', EventSchema);
 
+    // user
     app.post('/userId/:userId/userPassword/:userPassword', (req, res) => {
-        console.log("creating user id...");
+        console.log("creating new user data...");
         const newUserId = req.params.userId;
         const newUserPassword = req.params.userPassword;
 
@@ -75,7 +83,7 @@ db.once('open', function () {
         newUser
             .save()
             .then(()=> {
-                console.log("a new userId created successfully");
+                console.log("a new user data is created successfully");
             })
             .catch((error)=> {
                 console.log(error);
@@ -148,8 +156,6 @@ db.once('open', function () {
             console.log(err);
         });
 
-
-        const newUserId = req.params.userId;
         const message = `
             <html>
             <head>
@@ -166,8 +172,8 @@ db.once('open', function () {
 
     });
 
-    app.post('/userId/:userId/userPassword/:userPassword/updatedPassword/:updatedPassword', (req, res) => {
-        console.log("updating user id...");
+    app.post('/userId/:userId/userPassword/:userPassword/updatedUserPassword/:updatedUserPassword', (req, res) => {
+        console.log("updating user password...");
 
         const filter = {
             userID: req.params.userId,
@@ -175,7 +181,7 @@ db.once('open', function () {
         };
         const update = {
             userID: req.params.userId,
-            userPassword: req.params.updatedPassword,
+            userPassword: req.params.updatedUserPassword,
         };
 
         User.findOneAndUpdate(filter, update,
@@ -188,8 +194,6 @@ db.once('open', function () {
             console.log(err);
         });
 
-
-        const newUserId = req.params.userId;
         const message = `
             <html>
             <head>
@@ -236,6 +240,175 @@ db.once('open', function () {
         res.send(message);
     });
 
+    // admin
+    app.post('/adminId/:adminId/adminPassword/:adminPassword', (req, res) => {
+        console.log("creating new admin data...");
+        const newAdminId = req.params.adminId;
+        const newAdminPassword = req.params.adminPassword;
+
+        let newAdmin = new Admin({
+            adminID: newAdminId,
+            adminPassword: newAdminPassword,
+        });
+        newAdmin
+            .save()
+            .then(()=> {
+                console.log("a new admin data is created successfully");
+            })
+            .catch((error)=> {
+                console.log(error);
+            });
+        
+        const message = `
+        <html>
+        <head>
+            <title>Create User Id</title>
+        </head>
+        <body>
+            <p>New admin id: ${newAdminId}</p>
+            <p>New admin password: ${newAdminPassword}</p>
+        </body>
+        </html>
+        `;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.send(message);
+        
+        
+        
+    });
+
+    app.post('/readAdminId', (req, res) => {
+        console.log("reading admin id...");
+
+        Admin.find({})
+        .then( (data) => {
+            console.log(data);
+        })
+        .catch( (err) => {
+            console.log("failed to read");
+        });
+
+        const message = `
+            <html>
+            <head>
+                <title>Read Admin Id</title>
+            </head>
+            <body>
+                <p></p>
+            </body>
+            </html>
+        `;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.send(message);
+    });
+
+    app.post('/adminId/:adminId/adminPassword/:adminPassword/updatedAdminId/:updatedAdminId', (req, res) => {
+        console.log("updating admin id...");
+
+        const filter = {
+            adminID: req.params.adminId,
+            adminPassword: req.params.adminPassword,
+        };
+        const update = {
+            adminID: req.params.updatedAdminId,
+            adminPassword: req.params.adminPassword,
+        };
+
+        Admin.findOneAndUpdate(filter, update,
+            {new: true}
+        )
+        .then ( (data) => {
+            console.log("the updated data is: ", data);
+        })
+        .catch( (err) => {
+            console.log(err);
+        });
+
+        const message = `
+            <html>
+            <head>
+                <title>Update Admin Id</title>
+            </head>
+            <body>
+                <p></p>
+            </body>
+            </html>
+        `;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.send(message);
+
+    });
+
+    app.post('/adminId/:adminId/adminPassword/:adminPassword/updatedAdminPassword/:updatedAdminPassword', (req, res) => {
+        console.log("updating admin password...");
+
+        const filter = {
+            adminID: req.params.adminId,
+            adminPassword: req.params.adminPassword,
+        };
+        const update = {
+            adminID: req.params.adminId,
+            adminPassword: req.params.updatedAdminPassword,
+        };
+
+        Admin.findOneAndUpdate(filter, update,
+            {new: true}
+        )
+        .then ( (data) => {
+            console.log("the updated data is: ", data);
+        })
+        .catch( (err) => {
+            console.log(err);
+        });
+
+        const message = `
+            <html>
+            <head>
+                <title>Update User Id</title>
+            </head>
+            <body>
+                <p></p>
+            </body>
+            </html>
+        `;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.send(message);
+
+    });
+
+
+    app.post('/deleteAdminId/:deleteAdminId', (req, res) => {
+        console.log("deleting admin id...");
+        const deleteAdminId = req.params.deleteAdminId;
+
+        Admin.findOneAndDelete(
+            {adminID: deleteAdminId},
+        )
+        .then ( (data) => {
+            console.log("the deleted data is: ", data);
+        })
+        .catch( (err) => {
+            console.log(err);
+        });
+
+        const message = `
+            <html>
+            <head>
+                <title>Delete User Id</title>
+            </head>
+            <body>
+                <p></p>
+            </body>
+            </html>
+        `;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.send(message);
+    });
 
     //location and events
     app.get('/ev/:eventID', (req,res) => {
