@@ -1,0 +1,47 @@
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* App.css */
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.App.light {
+    background-color: white;
+    color: black;
+}
+
+.App.dark {
+    background-color: black;
+    color: white;
+}
+
+/* Button Styles */
+.theme-button {
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+/* Button Hover Effect */
+.theme-button:hover {
+    background-color: #0056b3; 
+}
+
+/* Button Focus Effect */
+.theme-toggle-button:focus {
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
