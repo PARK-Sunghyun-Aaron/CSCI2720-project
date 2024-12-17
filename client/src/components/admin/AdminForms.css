@@ -1,0 +1,170 @@
+.admin-form {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.admin-form label {
+    font-weight: 500;
+    color: #344767;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.admin-form input,
+.admin-form select {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+    border-color: #000;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+.admin-section {
+    margin-bottom: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-section-header {
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.admin-section-header:hover {
+    background: #f1f3f5;
+}
+
+.admin-section-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #344767;
+}
+
+.admin-section-content {
+    padding: 1.5rem;
+}
+
+.admin-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+}
+
+.admin-card p {
+    margin: 0.5rem 0;
+    color: #495057;
+}
+
+.admin-card strong {
+    color: #344767;
+}
+
+.btn-admin {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-admin-primary {
+    background: #000;
+    color: #fff;
+}
+
+.btn-admin-primary:hover {
+    background: #333;
+}
+
+.btn-admin-danger {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-admin-danger:hover {
+    background: #bb2d3b;
+}
+
+.data-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.data-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.data-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.data-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-col {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.disabled-input {
+    background-color: #f8f9fa !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.disabled-input::placeholder {
+    color: #adb5bd;
+}
+
+.btn-admin:disabled {
+    background-color: #dee2e6;
+    cursor: not-allowed;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
