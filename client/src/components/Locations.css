@@ -1,0 +1,35 @@
+/* Add this to your CSS file */
+.custom-slider {
+    -webkit-appearance: none; /* Override default styling */
+    appearance: none;
+    width: 100%;
+    height: 8px; /* Height of the slider */
+    background: #e0e0e0; /* Background color of the track */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default styling */
+    appearance: none;
+    width: 20px; /* Width of the thumb */
+    height: 20px; /* Height of the thumb */
+    border-radius: 50%; /* Round thumb */
+    background: blue; /* Color of the thumb */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.custom-slider::-moz-range-thumb {
+    width: 20px; /* Width of the thumb */
+    height: 20px; /* Height of the thumb */
+    border-radius: 50%; /* Round thumb */
+    background: blue; /* Color of the thumb */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.custom-slider::-ms-thumb {
+    width: 20px; /* Width of the thumb */
+    height: 20px; /* Height of the thumb */
+    border-radius: 50%; /* Round thumb */
+    background: blue; /* Color of the thumb */
+    cursor: pointer; /* Pointer cursor on hover */
+}
