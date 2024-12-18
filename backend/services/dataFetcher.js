@@ -103,8 +103,8 @@ async function fetchDefaultUser() {
         const defaultUser = new User({
             email: "user1@test.com",
             password: hashedPassword,
-            firstName: "user",
-            lastName: "default",
+            firstName: "User",
+            lastName: "Default",
             role: "user",
             locations: []
         });
@@ -113,8 +113,8 @@ async function fetchDefaultUser() {
         const defaultAdmin = new User({
             email: "admin1@test.com",
             password: hashedPassword,
-            firstName: "admin",
-            lastName: "default",
+            firstName: "Admin",
+            lastName: "Default",
             role: "admin",
             locations: []
         });
