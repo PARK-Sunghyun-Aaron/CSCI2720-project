@@ -2,6 +2,8 @@ const axios = require('axios');
 const xml2js = require('xml2js');
 const Event = require('../models/Event');
 const Location = require('../models/Location');
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
 
 let eventsArray = [];
 let venuesArray = [];
@@ -93,10 +95,42 @@ async function fetchLocation() {
     }
 }
 
+async function fetchDefaultUser() {
+    try {
+        const password = 'Default123!';
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        const defaultUser = new User({
+            email: "user1@test.com",
+            password: hashedPassword,
+            firstName: "user",
+            lastName: "default",
+            role: "user",
+            locations: []
+        });
+        await defaultUser.save();
+
+        const defaultAdmin = new User({
+            email: "admin1@test.com",
+            password: hashedPassword,
+            firstName: "admin",
+            lastName: "default",
+            role: "admin",
+            locations: []
+        });
+        await defaultAdmin.save();
+
+    } 
+    catch (err) {
+        console.error('Error in fetchDefaultUser:', error);
+    }
+}
+
 async function fetchDataInOrder() {
     try {
         await fetchEvent();
         await fetchLocation();
+        await fetchDefaultUser();
         console.log('Data fetching and saving completed successfully');
     } catch (error) {
         console.error('Error during data fetching:', error);
