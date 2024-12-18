@@ -7,18 +7,53 @@ const ManageEvents = ({ setMessage }) => {
     
     // Event management state variables
     const [listEvents, setListEvents] = useState([]);
-    const [findEventId, setFindEventId] = useState('');
-    const [newEventName, setNewEventName] = useState('');
-    const [newEventQuota, setNewEventQuota] = useState('');
     const [locationName, setLocationName] = useState('');
     const [deleteEventId, setDeleteEventId] = useState('');
     const [foundEvent, setFoundEvent] = useState(null);
     const [loadEventId, setLoadEventId] = useState('');
-    const [updateEventName, setUpdateEventName] = useState('');
-    const [updateEventQuota, setUpdateEventQuota] = useState('');
-    const [updateEventLocationId, setUpdateEventLocationId] = useState('');
+    const [updateEventTitle, setUpdateEventTitle] = useState('');
+    const [updateEventDate, setUpdateEventDate] = useState('');
+    const [updateEventDuration, setUpdateEventDuration] = useState('');
+
+    // New Event state variables
+    const [newEventId, setNewEventId] = useState('');
+    const [newEventTitle, setNewEventTitle] = useState('');
+    const [newEventVenue, setNewEventVenue] = useState('');
+    const [newEventDate, setNewEventDate] = useState('');
+    const [newEventDuration, setNewEventDuration] = useState('');
+    const [newEventDescre, setNewEventDescre] = useState('');
+    const [newEventPre, setNewEventPre] = useState('');
 
     // Event management functions
+    const handleCreateEvent = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5001/api/events/createEvent', {
+                eventid: newEventId,
+                title: newEventTitle,
+                venue: newEventVenue,
+                date: newEventDate,
+                duration: newEventDuration,
+                descre: newEventDescre,
+                pre: newEventPre,
+            });
+            setMessage('Event created successfully');
+            // Clear form fields after successful creation
+            setNewEventId('');
+            setNewEventTitle('');
+            setNewEventVenue('');
+            setNewEventDate('');
+            setNewEventDuration('');
+            setNewEventDescre('');
+            setNewEventPre('');
+            setTimeout(() => setMessage(''), 2000);
+        } catch (err) {
+            console.error(err);
+            setMessage('Error creating event');
+            setTimeout(() => setMessage(''), 2000);
+        }
+    };
+
     const handleListEvents = async (e) => {
         e.preventDefault();
         try {
@@ -33,64 +68,15 @@ const ManageEvents = ({ setMessage }) => {
         }
     };
 
-    const handleFindEvent = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.get(`http://localhost:5001/api/events/loadEvent/${findEventId}`);
-            setFoundEvent(response.data);
-            setMessage(`Event found: ${response.data.name}`);
-            setTimeout(() => setMessage(''), 2000);
-        } catch (err) {
-            console.error(err);
-            setMessage('Error finding event');
-            setTimeout(() => setMessage(''), 2000);
-        }
-    };
-
-    const handleCreateEvent = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('http://localhost:5001/api/events/createEvent', {
-                name: newEventName,
-                quota: newEventQuota,
-                loc: locationName,
-            });
-            setMessage('Event created successfully');
-            // Clear form fields
-            setNewEventName('');
-            setNewEventQuota('');
-            setLocationName('');
-            setTimeout(() => setMessage(''), 2000);
-        } catch (err) {
-            console.error(err);
-            setMessage('Error creating event');
-            setTimeout(() => setMessage(''), 2000);
-        }
-    };
-
-    const handleDeleteEvent = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.delete(`http://localhost:5001/api/events/deleteEvent/${deleteEventId}`);
-            setMessage('Event deleted successfully');
-            setDeleteEventId('');
-            setTimeout(() => setMessage(''), 2000);
-        } catch (err) {
-            console.error(err);
-            setMessage('Error deleting event');
-            setTimeout(() => setMessage(''), 2000);
-        }
-    };
-
     const handleLoadEvent = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.get(`http://localhost:5001/api/events/loadEvent/${loadEventId}`);
             setFoundEvent(response.data);
             // Populate update fields
-            setUpdateEventName(response.data.name);
-            setUpdateEventQuota(response.data.quota);
-            setUpdateEventLocationId(response.data.loc);
+            setUpdateEventTitle(response.data.name);
+            setUpdateEventDate(response.data.data);
+            setUpdateEventDuration(response.data.duration);
             setMessage(`Event loaded: ${response.data.name}`);
             setTimeout(() => setMessage(''), 2000);
         } catch (err) {
@@ -104,15 +90,29 @@ const ManageEvents = ({ setMessage }) => {
         e.preventDefault();
         try {
             await axios.put(`http://localhost:5001/api/events/updateEvent/${loadEventId}`, {
-                name: updateEventName,
-                quota: updateEventQuota,
-                loc: updateEventLocationId,
+                name: updateEventTitle,
+                quota: updateEventDate,
+                loc: updateEventDuration,
             });
             setMessage('Event updated successfully');
             setTimeout(() => setMessage(''), 2000);
         } catch (err) {
             console.error(err);
             setMessage('Error updating event');
+            setTimeout(() => setMessage(''), 2000);
+        }
+    };
+    
+    const handleDeleteEvent = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(`http://localhost:5001/api/events/deleteEvent/${deleteEventId}`);
+            setMessage('Event deleted successfully');
+            setDeleteEventId('');
+            setTimeout(() => setMessage(''), 2000);
+        } catch (err) {
+            console.error(err);
+            setMessage('Error deleting event');
             setTimeout(() => setMessage(''), 2000);
         }
     };
@@ -135,34 +135,80 @@ const ManageEvents = ({ setMessage }) => {
                         <form onSubmit={handleCreateEvent} className="admin-form">
                             <div className="form-row">
                                 <div className="form-col">
-                                    <label htmlFor="newEventName">Event Name</label>
+                                    <label htmlFor="newEventId">Event Id</label>
                                     <input 
                                         type="text" 
-                                        id="newEventName" 
-                                        value={newEventName} 
-                                        onChange={(e) => setNewEventName(e.target.value)} 
+                                        id="newEventId" 
+                                        value={newEventId} 
+                                        onChange={(e) => setNewEventId(e.target.value)} 
                                         required 
                                     />
                                 </div>
                                 <div className="form-col">
-                                    <label htmlFor="newEventQuota">Event Quota</label>
+                                    <label htmlFor="newEventTitle">Event Title</label>
                                     <input 
                                         type="number" 
-                                        id="newEventQuota" 
-                                        value={newEventQuota} 
-                                        onChange={(e) => setNewEventQuota(e.target.value)} 
+                                        id="newEventTitle" 
+                                        value={newEventTitle} 
+                                        onChange={(e) => setNewEventTitle(e.target.value)} 
                                         required 
                                     />
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="form-col">
-                                    <label htmlFor="locationName">Location Name</label>
+                                    <label htmlFor="newEventVenue">Event Venue</label>
                                     <input 
                                         type="text" 
-                                        id="locationName" 
-                                        value={locationName} 
-                                        onChange={(e) => setLocationName(e.target.value)} 
+                                        id="newEventVenue" 
+                                        value={newEventVenue} 
+                                        onChange={(e) => setNewEventVenue(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-col">
+                                    <label htmlFor="newEventDate">Event Date</label>
+                                    <input 
+                                        type="number" 
+                                        id="newEventDate" 
+                                        value={newEventDate} 
+                                        onChange={(e) => setNewEventDate(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
+                                <div className="form-col">
+                                    <label htmlFor="newEventDuration">Event Duration</label>
+                                    <input 
+                                        type="text" 
+                                        id="newEventDuration" 
+                                        value={newEventDuration} 
+                                        onChange={(e) => setNewEventDuration(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-col">
+                                    <label htmlFor="newEventDescre">Event Description</label>
+                                    <input 
+                                        type="text" 
+                                        id="newEventDescre" 
+                                        value={newEventDescre} 
+                                        onChange={(e) => setNewEventDescre(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-col">
+                                    <label htmlFor="newEventPre">Event Pre</label>
+                                    <input 
+                                        type="text" 
+                                        id="newEventPre" 
+                                        value={newEventPre} 
+                                        onChange={(e) => setNewEventPre(e.target.value)} 
                                         required 
                                     />
                                 </div>
@@ -192,55 +238,16 @@ const ManageEvents = ({ setMessage }) => {
                             <div className="data-list">
                                 {listEvents.map((event) => (
                                     <div key={event.name} className="admin-card">
-                                        <p><strong>Name:</strong> {event.name}</p>
-                                        <p><strong>Quota:</strong> {event.quota}</p>
-                                        <p><strong>Location:</strong> {event.loc.locName}</p>
+                                        <p><strong>Title:</strong> {event.title}</p>
+                                        <p><strong>Venue:</strong> {event.venue}</p>
+                                        <p><strong>Date:</strong> {event.date}</p>
+                                        <p><strong>Duration:</strong> {event.duration}</p>
+                                        <p><strong>Event ID:</strong> {event.eventID}</p>
                                     </div>
                                 ))}
                             </div>
                             <button type="submit" className="btn-admin btn-admin-primary">
                                 List Events
-                            </button>
-                        </form>
-                    </div>
-                )}
-            </div>
-
-            <div className="admin-section">
-                <div 
-                    className="admin-section-header"
-                    onClick={() => setExpandedSection(expandedSection === 'findEvent' ? null : 'findEvent')}
-                >
-                    <h3>
-                        <i className="fas fa-search me-2"></i>
-                        Find Event
-                    </h3>
-                    <i className={`fas fa-chevron-${expandedSection === 'findEvent' ? 'up' : 'down'}`}></i>
-                </div>
-                {expandedSection === 'findEvent' && (
-                    <div className="admin-section-content">
-                        <form onSubmit={handleFindEvent} className="admin-form">
-                            <div className="form-row">
-                                <div className="form-col">
-                                    <label htmlFor="findEventId">Event ID</label>
-                                    <input 
-                                        type="text" 
-                                        id="findEventId" 
-                                        value={findEventId} 
-                                        onChange={(e) => setFindEventId(e.target.value)} 
-                                        required 
-                                    />
-                                </div>
-                            </div>
-                            {foundEvent && (
-                                <div className="admin-card mt-3">
-                                    <p><strong>Name:</strong> {foundEvent.name}</p>
-                                    <p><strong>Quota:</strong> {foundEvent.quota}</p>
-                                    <p><strong>Location:</strong> {foundEvent.loc.locName}</p>
-                                </div>
-                            )}
-                            <button type="submit" className="btn-admin btn-admin-primary">
-                                Find Event
                             </button>
                         </form>
                     </div>
@@ -285,44 +292,44 @@ const ManageEvents = ({ setMessage }) => {
                         <form onSubmit={handleUpdateEvent} className="admin-form">
                             <div className="form-row">
                                 <div className="form-col">
-                                    <label htmlFor="updateEventName">Event Name</label>
+                                    <label htmlFor="updateEventTitle">Event Title</label>
                                     <input 
                                         type="text" 
-                                        id="updateEventName" 
-                                        value={updateEventName} 
-                                        onChange={(e) => setUpdateEventName(e.target.value)} 
+                                        id="updateEventTitle" 
+                                        value={updateEventTitle} 
+                                        onChange={(e) => setUpdateEventTitle(e.target.value)} 
                                         required 
                                         disabled={!foundEvent}
                                         className={!foundEvent ? 'disabled-input' : ''}
-                                        placeholder={foundEvent ? "Enter event name" : "Load event first"}
+                                        placeholder={foundEvent ? "Enter event title" : "Load event first"}
                                     />
                                 </div>
                                 <div className="form-col">
-                                    <label htmlFor="updateEventQuota">Event Quota</label>
+                                    <label htmlFor="updateEventDate">Event Date</label>
                                     <input 
-                                        type="number" 
-                                        id="updateEventQuota" 
-                                        value={updateEventQuota} 
-                                        onChange={(e) => setUpdateEventQuota(e.target.value)} 
+                                        type="text" 
+                                        id="updateEventDate" 
+                                        value={updateEventDate} 
+                                        onChange={(e) => setUpdateEventDate(e.target.value)} 
                                         required 
                                         disabled={!foundEvent}
                                         className={!foundEvent ? 'disabled-input' : ''}
-                                        placeholder={foundEvent ? "Enter quota" : "Load event first"}
+                                        placeholder={foundEvent ? "Enter date" : "Load event first"}
                                     />
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="form-col">
-                                    <label htmlFor="updateEventLocation">Location ID</label>
+                                    <label htmlFor="updateEventDuration">Duration</label>
                                     <input 
                                         type="text" 
-                                        id="updateEventLocation" 
-                                        value={updateEventLocationId} 
-                                        onChange={(e) => setUpdateEventLocationId(e.target.value)} 
+                                        id="updateEventDuration" 
+                                        value={updateEventDuration} 
+                                        onChange={(e) => setUpdateEventDuration(e.target.value)} 
                                         required 
                                         disabled={!foundEvent}
                                         className={!foundEvent ? 'disabled-input' : ''}
-                                        placeholder={foundEvent ? "Enter location ID" : "Load event first"}
+                                        placeholder={foundEvent ? "Enter duration" : "Load event first"}
                                     />
                                 </div>
                             </div>

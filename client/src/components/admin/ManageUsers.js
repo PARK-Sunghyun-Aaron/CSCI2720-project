@@ -23,6 +23,31 @@ const ManageUsers = ({ setMessage }) => {
     const [newUserRole, setNewUserRole] = useState('user');
 
     // User management functions
+    const handleCreateUser = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5001/api/users/createUser', {
+                email: newUserEmail,
+                password: newUserPassword,
+                firstName: newUserFirstName,
+                lastName: newUserLastName,
+                role: newUserRole,
+            });
+            setMessage('User created successfully');
+            // Clear the form fields after successful creation
+            setNewUserEmail('');
+            setNewUserPassword('');
+            setNewUserFirstName('');
+            setNewUserLastName('');
+            setNewUserRole('user');
+            setTimeout(() => setMessage(''), 2000);
+        } catch (err) {
+            console.error(err);
+            setMessage('Error creating user');
+            setTimeout(() => setMessage(''), 2000);
+        }
+    };
+
     const handleListUsers = async (e) => {
         e.preventDefault();
         try {
@@ -83,31 +108,6 @@ const ManageUsers = ({ setMessage }) => {
         } catch (err) {
             console.error(err);
             setMessage('Error deleting user');
-            setTimeout(() => setMessage(''), 2000);
-        }
-    };
-
-    const handleCreateUser = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('http://localhost:5001/api/users/createUser', {
-                email: newUserEmail,
-                password: newUserPassword,
-                firstName: newUserFirstName,
-                lastName: newUserLastName,
-                role: newUserRole,
-            });
-            setMessage('User created successfully');
-            // Clear the form fields after successful creation
-            setNewUserEmail('');
-            setNewUserPassword('');
-            setNewUserFirstName('');
-            setNewUserLastName('');
-            setNewUserRole('user');
-            setTimeout(() => setMessage(''), 2000);
-        } catch (err) {
-            console.error(err);
-            setMessage('Error creating user');
             setTimeout(() => setMessage(''), 2000);
         }
     };
