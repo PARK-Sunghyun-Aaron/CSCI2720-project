@@ -80,6 +80,13 @@ const LocationsTable = () => {
         return R * c; // Distance in km
     };
 
+    const distances = locations.map(location => 
+        calculateDistance(userLatitude, userLongitude, location.latitude, location.longitude)
+    );
+    
+    const maxDistance = Math.ceil(Math.max(...distances) + 1);
+    const minDistance = Math.min(...distances).toFixed(0);
+
     useEffect(() => {
         if (userLatitude === null || userLongitude === null) return; // Wait until location is fetched
         const filtered = locations.filter(location => {
@@ -90,7 +97,7 @@ const LocationsTable = () => {
             );
 
 
-            return distanceToLocation <= distance + 1 &&
+            return distanceToLocation <= distance &&
                 location.location.toLowerCase().includes(searchTerm.toLowerCase());
         });
         setFilteredLocations(filtered);
@@ -177,8 +184,8 @@ const LocationsTable = () => {
                             <p style={{ margin: 0 }}>Filter by Distance</p>
                             <input
                                 type="range"
-                                min="10"
-                                max="25"
+                                min={minDistance}
+                                max={maxDistance}
                                 value={distance}
                                 onChange={(e) => setDistance(e.target.value)}
                             />
