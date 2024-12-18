@@ -13,11 +13,8 @@ cd backend,
 npm install,
 node index.js
 
-# Whenever the server is restarted, all the data from the previous runs are deleted 
-from the Database to ensure a smooth run.
-
-# Whenever the server is restarted, one User and one Admin accounts are loaded to the database.
-Please find details below.
+# IMPORTANT
+Whenever the server is restarted, all the data from the previous runs are deleted  from the Database to ensure a smooth run. One User and one Admin accounts are loaded to the database. Please find details below.
 
 # Run the following commands to serve the frontend:
 
