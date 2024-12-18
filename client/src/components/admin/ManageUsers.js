@@ -58,7 +58,7 @@ const ManageUsers = ({ setMessage }) => {
     const handleUpdateUser = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:5001/api/users/updateUser/${updateUserEmail}`, {
+            await axios.put(`http://localhost:5001/api/users/updateUser/${updateUserEmail}/${loadUserEmail}`, {
                 email: updateUserEmail,
                 password: updateUserPassword,
                 firstName: updateUserFirstName,

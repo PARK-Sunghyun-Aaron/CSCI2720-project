@@ -65,20 +65,18 @@ router.get('/loadUser/:email', async (req, res) => {
 });
 
 // Update a user
-router.put('/updateUser/:email', async (req, res) => {
-    const { email } = req.params;
-    const { password, firstName, lastName, locations } = req.body;
-    console.log(locations);
+router.put('/updateUser/:email/:originalEmail', async (req, res) => {
+    const filter = { email: req.params.originalEmail};
+    const update = {
+        email: req.params.email,
+        passowrd: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+    }
     try {
-        const updateData = {};
-        if (password) updateData.password = password;
-        if (firstName) updateData.firstName = firstName;
-        if (lastName) updateData.lastName = lastName;
-        if (locations !== undefined) updateData.locations = locations;
 
         const updatedUser = await User.findOneAndUpdate(
-            { email },
-            updateData,
+            filter, update,
             { new: true }
         );
         

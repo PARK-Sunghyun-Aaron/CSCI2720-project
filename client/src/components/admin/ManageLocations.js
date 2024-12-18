@@ -55,10 +55,11 @@ const ManageLocations = ({ setMessage }) => {
                         <form onSubmit={handleListLocations} className="admin-form">
                             <div className="data-list">
                                 {listLocations.map((location) => (
-                                    <div key={location.locName} className="admin-card">
-                                        <p><strong>Name:</strong> {location.locName}</p>
-                                        <p><strong>ID:</strong> {location.locID}</p>
-                                        <p><strong>Quota:</strong> {location.quota}</p>
+                                    <div key={location.venueid} className="admin-card">
+                                        <p><strong>Venue ID:</strong> {location.venueid}</p>
+                                        <p><strong>Location:</strong> {location.location}</p>
+                                        <p><strong>Latitude:</strong> {location.latitude}</p>
+                                        <p><strong>Longitude:</strong> {location.longitude}</p>
                                     </div>
                                 ))}
                             </div>
