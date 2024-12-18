@@ -55,14 +55,13 @@ const Locator = () => {
                     title: venuesAtLocation[0].location // Add title to show on hover
                 });
 
-                // Create info window content with proper venue properties
                 const content = `
                     <div style="padding: 10px;">
                         <h3 style="margin-bottom: 10px; color: #344767;">Venues at this location:</h3>
                         <ul style="list-style-type: none; padding-left: 0;">
                             ${venuesAtLocation.map(venue => `
                                 <li style="margin-bottom: 8px;">
-                                    <a href="/location/${venue.location}" style="text-decoration: none; color: #000;">
+                                    <a href="/location/${venue.location}" style="text-decoration: none; color: #344767;">
                                         ${venue.location}
                                         <span style="color: #666; font-size: 0.9em;">
                                             (${venue.count} events)
@@ -74,6 +73,7 @@ const Locator = () => {
                     </div>
                 `;
 
+
                 const infoWindow = new window.google.maps.InfoWindow({
                     content: content,
                     maxWidth: 300
@@ -84,9 +84,15 @@ const Locator = () => {
                     infoWindow.open(map, marker);
                 });
 
-                marker.addListener('mouseout', () => {
-                    infoWindow.close();
-                });
+                // Close info window with close button
+                window.google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
+                    const closeButton = document.getElementById('close-info-window');
+                    if (closeButton) {
+                      closeButton.addEventListener('click', () => {
+                        infoWindow.close();
+                      });
+                    }
+                  });
 
                 // Add click event to navigate
                 marker.addListener('click', () => {
