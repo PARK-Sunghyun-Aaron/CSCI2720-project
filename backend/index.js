@@ -15,6 +15,14 @@ app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('MongoDB connected');
+
+        // delete every data collection
+        let db = mongoose.connection;
+        db.collection('events').deleteMany({});
+        db.collection('locations').deleteMany({});
+        db.collection('bookings').deleteMany({});
+        db.collection('users').deleteMany({});
+
         // Fetch and save data when the server starts
         fetchDataInOrder();
     })
