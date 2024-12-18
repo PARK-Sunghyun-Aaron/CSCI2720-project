@@ -7,13 +7,13 @@ const ManageUsers = ({ setMessage }) => {
     
     // User management state variables
     const [listUsers, setListUsers] = useState([]);
-    const [loadUserEmail, setLoadUserEmail] = useState('');
     const [updateUserEmail, setUpdateUserEmail] = useState('');
     const [updateUserPassword, setUpdateUserPassword] = useState('');
     const [updateUserFirstName, setUpdateUserFirstName] = useState('');
     const [updateUserLastName, setUpdateUserLastName] = useState('');
     const [deleteUserEmail, setDeleteUserEmail] = useState('');
     const [loadedUser, setLoadedUser] = useState(null);
+    const [loadUserEmail, setLoadUserEmail] = useState('');
     
     // New user state variables
     const [newUserEmail, setNewUserEmail] = useState('');

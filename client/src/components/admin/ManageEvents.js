@@ -7,13 +7,15 @@ const ManageEvents = ({ setMessage }) => {
     
     // Event management state variables
     const [listEvents, setListEvents] = useState([]);
-    const [locationName, setLocationName] = useState('');
-    const [deleteEventId, setDeleteEventId] = useState('');
-    const [foundEvent, setFoundEvent] = useState(null);
+    const [loadedEvent, setLoadedEvent] = useState(null);
     const [loadEventId, setLoadEventId] = useState('');
     const [updateEventTitle, setUpdateEventTitle] = useState('');
+    const [updateEventVenue, setUpdateEventVenue] = useState('')
     const [updateEventDate, setUpdateEventDate] = useState('');
     const [updateEventDuration, setUpdateEventDuration] = useState('');
+    const [updateEventDescre, setUpdateEventDescre] = useState('');
+    const [updateEventPre, setUpdateEventPre] = useState('');
+    const [deleteEventId, setDeleteEventId] = useState('');
 
     // New Event state variables
     const [newEventId, setNewEventId] = useState('');
@@ -72,12 +74,15 @@ const ManageEvents = ({ setMessage }) => {
         e.preventDefault();
         try {
             const response = await axios.get(`http://localhost:5001/api/events/loadEvent/${loadEventId}`);
-            setFoundEvent(response.data);
+            setLoadedEvent(response.data);
             // Populate update fields
-            setUpdateEventTitle(response.data.name);
-            setUpdateEventDate(response.data.data);
+            setUpdateEventTitle(response.data.title);
+            setUpdateEventVenue(response.data.venue);
+            setUpdateEventDate(response.data.date);
             setUpdateEventDuration(response.data.duration);
-            setMessage(`Event loaded: ${response.data.name}`);
+            setUpdateEventDescre(response.data.descre);
+            setUpdateEventPre(response.data.pre);
+            setMessage(`Event loaded: ${response.data.title}`);
             setTimeout(() => setMessage(''), 2000);
         } catch (err) {
             console.error(err);
@@ -90,9 +95,12 @@ const ManageEvents = ({ setMessage }) => {
         e.preventDefault();
         try {
             await axios.put(`http://localhost:5001/api/events/updateEvent/${loadEventId}`, {
-                name: updateEventTitle,
-                quota: updateEventDate,
-                loc: updateEventDuration,
+                title: updateEventTitle,
+                venue: updateEventVenue,
+                date: updateEventDate,
+                duration: updateEventDuration,
+                descre: updateEventDescre,
+                pre: updateEventPre,
             });
             setMessage('Event updated successfully');
             setTimeout(() => setMessage(''), 2000);
@@ -273,7 +281,7 @@ const ManageEvents = ({ setMessage }) => {
                                     <label htmlFor="loadEventId">Event ID</label>
                                     <div className="d-flex gap-2">
                                         <input 
-                                            type="text" 
+                                            type="number" 
                                             id="loadEventId" 
                                             value={loadEventId} 
                                             onChange={(e) => setLoadEventId(e.target.value)} 
@@ -299,22 +307,24 @@ const ManageEvents = ({ setMessage }) => {
                                         value={updateEventTitle} 
                                         onChange={(e) => setUpdateEventTitle(e.target.value)} 
                                         required 
-                                        disabled={!foundEvent}
-                                        className={!foundEvent ? 'disabled-input' : ''}
-                                        placeholder={foundEvent ? "Enter event title" : "Load event first"}
+                                        disabled={!loadedEvent}
+                                        className={!loadedEvent ? 'disabled-input' : ''}
+                                        placeholder={loadedEvent ? "Enter event title" : "Load event first"}
                                     />
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="form-col">
-                                    <label htmlFor="updateEventDate">Event Date</label>
+                                    <label htmlFor="updateEventVenue">Event Venue</label>
                                     <input 
                                         type="text" 
-                                        id="updateEventDate" 
-                                        value={updateEventDate} 
-                                        onChange={(e) => setUpdateEventDate(e.target.value)} 
+                                        id="updateEventVenue" 
+                                        value={updateEventVenue} 
+                                        onChange={(e) => setUpdateEventVenue(e.target.value)} 
                                         required 
-                                        disabled={!foundEvent}
-                                        className={!foundEvent ? 'disabled-input' : ''}
-                                        placeholder={foundEvent ? "Enter date" : "Load event first"}
+                                        disabled={!loadedEvent}
+                                        className={!loadedEvent ? 'disabled-input' : ''}
+                                        placeholder={loadedEvent ? "Enter event title" : "Load event first"}
                                     />
                                 </div>
                             </div>
@@ -327,16 +337,46 @@ const ManageEvents = ({ setMessage }) => {
                                         value={updateEventDuration} 
                                         onChange={(e) => setUpdateEventDuration(e.target.value)} 
                                         required 
-                                        disabled={!foundEvent}
-                                        className={!foundEvent ? 'disabled-input' : ''}
-                                        placeholder={foundEvent ? "Enter duration" : "Load event first"}
+                                        disabled={!loadedEvent}
+                                        className={!loadedEvent ? 'disabled-input' : ''}
+                                        placeholder={loadedEvent ? "Enter duration" : "Load event first"}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-col">
+                                    <label htmlFor="updateEventDescre">Event Description</label>
+                                    <input 
+                                        type="text" 
+                                        id="updateEventDescre" 
+                                        value={updateEventDescre} 
+                                        onChange={(e) => setUpdateEventDescre(e.target.value)} 
+                                        required 
+                                        disabled={!loadedEvent}
+                                        className={!loadedEvent ? 'disabled-input' : ''}
+                                        placeholder={loadedEvent ? "Enter event title" : "Load event first"}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-col">
+                                    <label htmlFor="updateEventPre">Event Pre</label>
+                                    <input 
+                                        type="text" 
+                                        id="updateEventPre" 
+                                        value={updateEventPre} 
+                                        onChange={(e) => setUpdateEventPre(e.target.value)} 
+                                        required 
+                                        disabled={!loadedEvent}
+                                        className={!loadedEvent ? 'disabled-input' : ''}
+                                        placeholder={loadedEvent ? "Enter event title" : "Load event first"}
                                     />
                                 </div>
                             </div>
                             <button 
                                 type="submit" 
                                 className="btn-admin btn-admin-primary"
-                                disabled={!foundEvent}
+                                disabled={!loadedEvent}
                             >
                                 Update Event
                             </button>
