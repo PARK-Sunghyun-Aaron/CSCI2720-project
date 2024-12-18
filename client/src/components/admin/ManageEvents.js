@@ -137,7 +137,7 @@ const ManageEvents = ({ setMessage }) => {
                                 <div className="form-col">
                                     <label htmlFor="newEventId">Event Id</label>
                                     <input 
-                                        type="text" 
+                                        type="number" 
                                         id="newEventId" 
                                         value={newEventId} 
                                         onChange={(e) => setNewEventId(e.target.value)} 
@@ -147,7 +147,7 @@ const ManageEvents = ({ setMessage }) => {
                                 <div className="form-col">
                                     <label htmlFor="newEventTitle">Event Title</label>
                                     <input 
-                                        type="number" 
+                                        type="text" 
                                         id="newEventTitle" 
                                         value={newEventTitle} 
                                         onChange={(e) => setNewEventTitle(e.target.value)} 
@@ -171,7 +171,7 @@ const ManageEvents = ({ setMessage }) => {
                                 <div className="form-col">
                                     <label htmlFor="newEventDate">Event Date</label>
                                     <input 
-                                        type="number" 
+                                        type="text" 
                                         id="newEventDate" 
                                         value={newEventDate} 
                                         onChange={(e) => setNewEventDate(e.target.value)} 
